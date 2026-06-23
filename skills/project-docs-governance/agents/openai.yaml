@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Docs Governance"
+  short_description: "Create and repair docs systems"
+  default_prompt: "Use $project-docs-governance to audit and improve this repository documentation workflow."

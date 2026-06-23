@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Docs Router"
+  short_description: "Find the right project docs"
+  default_prompt: "Use $repo-docs-router to find the project docs to read for this change."
