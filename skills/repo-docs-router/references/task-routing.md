@@ -77,3 +77,22 @@ Read:
 - Relevant `docs/reference/*.md`
 - Relevant architecture docs
 - ADRs if the decision is durable
+
+## Documentation Update Decisions
+
+Read:
+
+- `docs/contributing/documentation.md`
+- `references/documentation-lifecycle.md` from this skill
+- `references/document-status.md` from this skill when document freshness or
+  plan status matters
+
+Route updates as follows:
+
+- Product facts and principles -> `docs/product/vision.md`
+- System behavior, ownership, data flow -> `docs/architecture/*.md`
+- Repeatable implementation rules -> `docs/reference/*.md`
+- Durable decisions -> `docs/adr/*.md`
+- Intended work or sequencing -> `docs/planning/roadmap.md`
+- Shipped-vs-documented truth -> `docs/planning/implementation-status.md`
+- Docs workflow rules or special paths -> `docs/contributing/documentation.md`

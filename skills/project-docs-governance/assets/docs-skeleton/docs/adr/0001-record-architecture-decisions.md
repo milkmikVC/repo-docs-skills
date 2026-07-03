@@ -1,5 +1,9 @@
 # ADR 0001: Record Architecture Decisions
 
+> Status: Current
+> Last reviewed: YYYY-MM-DD
+> Applies to: Project decision-recording process.
+
 ## Status
 
 Accepted

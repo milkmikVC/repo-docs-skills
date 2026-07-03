@@ -13,7 +13,9 @@ agents to navigate.
 6. Put workflow rules in `docs/contributing/documentation.md`.
 7. Put durable decisions in ADRs.
 8. Use implementation status for factual code-vs-doc alignment.
-9. Remove or rewrite obsolete duplicate passages after confirming their new home.
+9. Mark stale, superseded, historical, or archived docs before deleting them.
+10. Remove or rewrite obsolete duplicate passages after confirming their new
+    home.
 
 ## Migration Output
 
@@ -24,6 +26,7 @@ For a migration plan, include:
 - Content to preserve.
 - Content to merge or delete.
 - Docs requiring user confirmation.
+- Docs whose status should change.
 - Verification steps.
 
 ## Safety

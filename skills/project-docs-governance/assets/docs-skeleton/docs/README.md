@@ -1,5 +1,9 @@
 # Project Documentation
 
+> Status: Current
+> Last reviewed: YYYY-MM-DD
+> Applies to: Project documentation map.
+
 This directory contains the project documentation.
 
 ## Entry Points

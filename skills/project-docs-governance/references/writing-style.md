@@ -10,6 +10,7 @@ Use this reference before creating or rewriting project docs.
 - Explicit tradeoffs.
 - Stable terms.
 - Factual implementation status.
+- Explicit document and plan-item status when a doc may become stale.
 
 ## Avoid
 
@@ -19,6 +20,7 @@ Use this reference before creating or rewriting project docs.
 - Duplicating the same rule in many places.
 - Turning a roadmap into an architecture spec.
 - Turning `AGENTS.md` into a long manual.
+- Leaving superseded experiments marked as current project truth.
 
 ## Completion Checklist
 
@@ -29,3 +31,4 @@ Before finishing docs governance work, check:
 - Durable decisions are ADRs.
 - Roadmap and implementation status do not contradict obvious code facts.
 - Project-specific facts live in the repository, not only in the skill.
+- Stale, superseded, or dropped docs are marked instead of silently trusted.

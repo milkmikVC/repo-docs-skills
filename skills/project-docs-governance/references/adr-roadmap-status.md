@@ -43,6 +43,16 @@ Good roadmap entries state:
 - why it matters,
 - what is intentionally deferred.
 
+Use explicit plan item statuses:
+
+- `Planned`
+- `In progress`
+- `Shipped`
+- `Partial`
+- `Deferred`
+- `Dropped`
+- `Superseded`
+
 ## Implementation Status
 
 Use implementation status docs to compare documented expectations with the
@@ -56,3 +66,17 @@ Good status entries include:
 - follow-up.
 
 Update status at meaningful checkpoints, not for every small commit.
+
+## Document Status
+
+For docs that may become stale or historical, add a compact status block near
+the top:
+
+```md
+> Status: Current
+> Last reviewed: 2026-07-03
+> Applies to: Workspace architecture.
+```
+
+Use `Superseded`, `Historical`, or `Archived` instead of leaving obsolete docs
+looking authoritative.

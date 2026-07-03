@@ -1,5 +1,9 @@
 # Project Conventions
 
+> Status: Current
+> Last reviewed: YYYY-MM-DD
+> Applies to: Repeatable project conventions.
+
 ## Purpose
 
 Record concrete repeatable implementation rules that are too detailed for

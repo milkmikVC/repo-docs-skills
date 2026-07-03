@@ -28,6 +28,8 @@ and audit rules; it must not become the hidden source of truth for a project.
    - Drift or conflict audit: read `references/audit-docs-drift.md`.
    - Rule-index design: read `references/rule-index-and-reference-docs.md`.
    - ADR, roadmap, or status work: read `references/adr-roadmap-status.md`.
+   - Conversation-fact and document-status design: read
+     `references/lifecycle-and-status.md`.
 4. Preserve existing useful project facts.
 5. Create or update repository docs.
 6. State what changed and why.
@@ -43,12 +45,15 @@ Read `references/governance-model.md` for the complete model. In short:
   or docs discovery mechanism.
 - `docs/README.md` maps the documentation set.
 - `docs/contributing/documentation.md` records project-local docs workflow and
-  special paths.
+  special paths, including when conversation facts or completed work become
+  documentation.
 - `docs/reference/` stores repeatable implementation rules.
 - `docs/adr/` stores durable decisions.
 - `docs/planning/roadmap.md` stores direction.
 - `docs/planning/implementation-status.md` stores current implementation truth
   against documented expectations.
+- Significant documents and plan items carry status markers so agents can
+  distinguish current truth, experiments, superseded context, and dropped work.
 
 ## Assets
 

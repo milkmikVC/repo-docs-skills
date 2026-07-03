@@ -18,6 +18,12 @@ software repository.
 | `docs/planning/roadmap.md` | Sequencing and intended direction. |
 | `docs/planning/implementation-status.md` | Factual comparison between documented expectations and current implementation. |
 
+## Document Status
+
+Significant docs should identify whether they are current, draft,
+experimental, superseded, historical, archived, or unknown. See
+`references/document-status.md` for the status model.
+
 ## Reading Order
 
 Do not read every file by default. Start from entry points, then route by task:

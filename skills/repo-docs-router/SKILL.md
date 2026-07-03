@@ -1,6 +1,6 @@
 ---
 name: repo-docs-router
-description: Route coding agents to the minimum relevant repository documentation using a standard docs contract. Use when Codex needs project documentation context for a software task, including product behavior, architecture, APIs, data models, frontend conventions, environment variables, ADRs, roadmap or implementation-status checks, cross-cutting conventions, or when repository docs entry points need discovery. Read-only by default; do not use for creating, migrating, or reorganizing a documentation system.
+description: Route coding agents to the minimum relevant repository documentation using a standard docs contract, and decide whether durable conversation facts or completed work require docs updates. Use when Codex needs project documentation context for a software task, including product behavior, architecture, APIs, data models, frontend conventions, environment variables, ADRs, roadmap or implementation-status checks, cross-cutting conventions, document status, or repository docs entry point discovery. Read-only for docs-system structure; do not use for creating, migrating, or reorganizing a documentation system.
 ---
 
 # Repo Docs Router
@@ -8,11 +8,14 @@ description: Route coding agents to the minimum relevant repository documentatio
 ## Purpose
 
 Find the smallest useful set of project documentation for the current task.
-Treat repository files as the source of truth after they are found.
+Treat repository files as the source of truth after they are found. Also decide
+whether new durable facts, decisions, or completed work should be written back
+to project docs.
 
-This skill is a router, not a governance tool. Do not create, move, or rewrite
-the documentation system with this skill. When docs are missing, conflicting,
-or structurally unhealthy, report the issue and suggest using
+This skill routes ordinary documentation reads and update decisions. It is not
+a docs-system governance tool. Do not create, move, or reorganize the
+documentation system with this skill. When docs are missing, conflicting, or
+structurally unhealthy, report the issue and suggest using
 `project-docs-governance`.
 
 ## Quick Workflow
@@ -24,7 +27,11 @@ or structurally unhealthy, report the issue and suggest using
 3. Classify the task type.
 4. Read only the docs needed for that task.
 5. Follow project-local overrides when they exist.
-6. If expected docs are missing or inconsistent, use the fallback guidance and
+6. Interpret document status before trusting a doc as current.
+7. During discussion, identify durable project facts or decisions that should
+   become docs.
+8. Before finishing meaningful work, run the documentation lifecycle check.
+9. If expected docs are missing or inconsistent, use the fallback guidance and
    mention the gap.
 
 ## Standard Docs Contract
@@ -55,6 +62,15 @@ Use `references/task-routing.md` to map a task to docs. Common examples:
 - Environment variables: environment docs and `.env.example`.
 - Roadmap or status questions: roadmap and implementation-status docs.
 - Cross-cutting concerns: contributing guidance, reference rules, ADRs.
+- Documentation update decisions: documentation lifecycle and status guidance.
+
+Read `references/documentation-lifecycle.md` before finalizing a meaningful
+feature, architecture decision, API change, roadmap/status change, or durable
+conversation fact.
+
+Read `references/document-status.md` when docs have status markers or when a
+doc may be stale, experimental, superseded, archived, planned, shipped, or
+dropped.
 
 ## Project Overrides
 
@@ -71,5 +87,7 @@ tell the user which docs were missing.
 ## Output Expectations
 
 When the user asks what to read, return a short ordered list of paths and why
-each path matters. When working on a code change, read the relevant paths and
-mention documentation gaps only when they affect the task.
+each path matters. When working on a code change or architecture discussion,
+read the relevant paths, confirm durable decisions when needed, and update or
+recommend updates to the appropriate docs. Mention documentation gaps only
+when they affect the task.

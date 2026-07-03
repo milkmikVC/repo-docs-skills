@@ -10,6 +10,8 @@ Use this workflow for a new or undocumented repository.
 4. Keep the first docs set small.
 5. Add an initial ADR only for a real durable decision.
 6. Add roadmap and implementation status only if they will guide near-term work.
+7. Add a document lifecycle section and status-marker rules to
+   `docs/contributing/documentation.md`.
 
 ## Minimal Useful Set
 
@@ -24,6 +26,9 @@ For most projects, start with:
 Add `docs/reference/`, `docs/adr/`, and implementation status when the project
 has recurring conventions, durable decisions, or meaningful shipped-vs-planned
 tracking.
+
+Mark significant docs with a compact status block so future agents know whether
+they describe current truth, a draft, an experiment, or historical context.
 
 ## Avoid
 

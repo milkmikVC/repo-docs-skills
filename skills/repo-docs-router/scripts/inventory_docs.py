@@ -30,6 +30,8 @@ STANDARD_DIRS = [
 ]
 
 RULE_ID_RE = re.compile(r"Rule ID:\s*`([^`]+)`")
+STATUS_RE = re.compile(r"^\s*(?:>\s*)?(?:Doc\s+)?Status:\s*([A-Za-z][A-Za-z -]*)\s*$", re.IGNORECASE | re.MULTILINE)
+PLAN_STATUS_RE = re.compile(r"\b(Planned|In progress|Shipped|Partial|Deferred|Dropped|Superseded)\b")
 
 
 def rel(path: Path, root: Path) -> str:
@@ -51,6 +53,40 @@ def collect_rule_ids(root: Path) -> list[str]:
     return sorted(set(ids))
 
 
+def collect_doc_statuses(root: Path) -> dict[str, str]:
+    docs_dir = root / "docs"
+    if not docs_dir.is_dir():
+        return {}
+
+    statuses: dict[str, str] = {}
+    for doc in sorted(docs_dir.rglob("*.md")):
+        try:
+            text = doc.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        match = STATUS_RE.search(text[:1200])
+        if match:
+            statuses[rel(doc, root)] = match.group(1).strip()
+    return statuses
+
+
+def collect_plan_statuses(root: Path) -> dict[str, list[str]]:
+    plan_dir = root / "docs/planning"
+    if not plan_dir.is_dir():
+        return {}
+
+    statuses: dict[str, list[str]] = {}
+    for doc in sorted(plan_dir.glob("*.md")):
+        try:
+            text = doc.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        found = sorted(set(PLAN_STATUS_RE.findall(text)))
+        if found:
+            statuses[rel(doc, root)] = found
+    return statuses
+
+
 def main() -> int:
     root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
     if not root.exists():
@@ -69,6 +105,8 @@ def main() -> int:
         "standardDirs": [rel(path, root) for path in dirs],
         "markdownDocs": markdown_docs,
         "referenceRuleIds": collect_rule_ids(root),
+        "documentStatuses": collect_doc_statuses(root),
+        "planStatuses": collect_plan_statuses(root),
         "missingRecommended": [
             item
             for item in [*STANDARD_FILES, *STANDARD_DIRS]

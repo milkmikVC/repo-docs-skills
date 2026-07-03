@@ -28,6 +28,8 @@ RECOMMENDED = [
 
 RULE_ID_RE = re.compile(r"Rule ID:\s*`([^`]+)`")
 ADR_RE = re.compile(r"^\d{4}-.+\.md$")
+STATUS_RE = re.compile(r"^\s*(?:>\s*)?(?:Doc\s+)?Status:\s*([A-Za-z][A-Za-z -]*)\s*$", re.IGNORECASE | re.MULTILINE)
+PLAN_STATUS_RE = re.compile(r"\b(Planned|In progress|Shipped|Partial|Deferred|Dropped|Superseded)\b")
 
 
 def rel(path: Path, root: Path) -> str:
@@ -52,6 +54,38 @@ def collect_rule_ids(root: Path) -> list[str]:
         except UnicodeDecodeError:
             continue
     return sorted(set(ids))
+
+
+def collect_doc_statuses(root: Path) -> dict[str, str]:
+    docs = root / "docs"
+    if not docs.is_dir():
+        return {}
+    statuses: dict[str, str] = {}
+    for doc in sorted(docs.rglob("*.md")):
+        try:
+            text = doc.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        match = STATUS_RE.search(text[:1200])
+        if match:
+            statuses[rel(doc, root)] = match.group(1).strip()
+    return statuses
+
+
+def collect_plan_statuses(root: Path) -> dict[str, list[str]]:
+    plan_dir = root / "docs/planning"
+    if not plan_dir.is_dir():
+        return {}
+    statuses: dict[str, list[str]] = {}
+    for doc in sorted(plan_dir.glob("*.md")):
+        try:
+            text = doc.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        found = sorted(set(PLAN_STATUS_RE.findall(text)))
+        if found:
+            statuses[rel(doc, root)] = found
+    return statuses
 
 
 def classify(root: Path) -> str:
@@ -85,6 +119,8 @@ def main() -> int:
         "markdownCounts": {item: count_markdown(root, item) for item in present},
         "adrFiles": adrs,
         "referenceRuleIds": collect_rule_ids(root),
+        "documentStatuses": collect_doc_statuses(root),
+        "planStatuses": collect_plan_statuses(root),
     }
     print(json.dumps(result, indent=2, ensure_ascii=False))
     return 0

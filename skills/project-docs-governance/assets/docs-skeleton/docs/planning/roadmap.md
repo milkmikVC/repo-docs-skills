@@ -1,5 +1,9 @@
 # Roadmap
 
+> Status: Current
+> Last reviewed: YYYY-MM-DD
+> Applies to: Intended implementation direction and sequencing.
+
 ## Current Stage
 
 Describe the current stage of the project.
@@ -12,6 +16,8 @@ Describe the current stage of the project.
 
 ## Near-term Priorities
 
-1. Priority 1.
-2. Priority 2.
-3. Priority 3.
+| Priority | Status | Notes |
+| --- | --- | --- |
+| Priority 1 | Planned | Replace this row. |
+| Priority 2 | Planned | Replace this row. |
+| Priority 3 | Planned | Replace this row. |

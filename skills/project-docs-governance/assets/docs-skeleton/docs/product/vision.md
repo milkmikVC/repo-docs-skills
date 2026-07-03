@@ -1,5 +1,9 @@
 # Product Vision
 
+> Status: Current
+> Last reviewed: YYYY-MM-DD
+> Applies to: Product thesis, principles, and non-goals.
+
 ## Summary
 
 Describe what this project is and who it serves.

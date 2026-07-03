@@ -21,6 +21,8 @@ Use the most appropriate evidence for the question:
 - Reference rule conflicts with current code style.
 - `AGENTS.md` duplicates or contradicts detailed docs.
 - ADR has been superseded without being marked.
+- A doc describes an experiment as current truth.
+- A roadmap item has shipped, been deferred, or been dropped without status.
 
 ## Audit Report
 
@@ -29,6 +31,7 @@ Keep reports concise:
 - Finding.
 - Evidence path.
 - Proposed doc fix.
+- Proposed status change when applicable.
 - Whether code, docs, or both should change.
 
 If fixing, make the smallest update that removes the contradiction.

@@ -1,5 +1,9 @@
 # Implementation Status
 
+> Status: Current
+> Last reviewed: YYYY-MM-DD
+> Applies to: Current implementation truth against documented expectations.
+
 ## Purpose
 
 Compare documented expectations with the current codebase.

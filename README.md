@@ -5,15 +5,16 @@ building healthy documentation governance systems.
 
 ## What This Repository Contains
 
-- `repo-docs-router`: a lightweight, read-only skill that finds the smallest
-  relevant docs set for ordinary coding work.
+- `repo-docs-router`: a lightweight skill that finds the smallest relevant docs
+  set for ordinary coding work and routes documentation update decisions.
 - `project-docs-governance`: a heavier governance skill for creating,
   migrating, auditing, and repairing a project's docs system.
 
 The design keeps responsibilities separate:
 
 - The coding agent runtime discovers skills.
-- `repo-docs-router` finds project docs.
+- `repo-docs-router` finds project docs and decides whether durable facts or
+  completed work should update docs.
 - Repository docs store project-specific facts and rules.
 - `project-docs-governance` repairs or creates the docs system itself.
 
@@ -26,6 +27,8 @@ contract:
 - standard docs paths are easy for agents to discover,
 - project-specific facts stay in the repo,
 - reusable routing logic lives in a skill,
+- durable conversation facts and completed feature work have a docs lifecycle,
+- stale, experimental, superseded, and dropped docs can be marked explicitly,
 - docs governance work has a separate workflow from normal feature work.
 
 ## Repository Layout
@@ -59,10 +62,14 @@ skills automatically.
 ## Usage
 
 Use `repo-docs-router` for ordinary work that needs repository documentation
-context:
+context or a docs update decision:
 
 ```text
 Use $repo-docs-router to find the project docs I should read before changing this API.
+```
+
+```text
+Use $repo-docs-router to decide whether this architecture decision should update docs.
 ```
 
 Use `project-docs-governance` when the documentation system itself is the task:
