@@ -28,8 +28,9 @@ experimental, superseded, historical, archived, or unknown. See
 
 Do not read every file by default. Start from entry points, then route by task:
 
-1. Check `docs/README.md` for a docs map.
-2. Check `docs/contributing/documentation.md` for local workflow.
+1. Check `docs/contributing/documentation.md` for the local workflow, update
+   rules, and special paths.
+2. Check `docs/README.md` for a docs map.
 3. Load task-specific docs from architecture, reference, ADR, planning, or
    product areas.
 4. Use `AGENTS.md` as a project rule source when present.

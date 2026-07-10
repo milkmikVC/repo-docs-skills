@@ -1,54 +1,73 @@
 # Repo Docs Skills
 
-Two Codex skills for routing agents through repository documentation and for
-building healthy documentation governance systems.
+Two reusable agent skills for making repository documentation discoverable,
+actionable, and maintainable across new and existing software projects.
 
-## What This Repository Contains
+> [!IMPORTANT]
+> Install both skills inside each project under `.agents/skills/` and commit
+> them with the repository. Project-scoped installation keeps the documentation
+> workflow versioned with the codebase and gives every contributor and coding
+> agent the same behavior. Personal installation is best reserved for temporary
+> evaluation.
 
-- `repo-docs-router`: a lightweight skill that finds the smallest relevant docs
-  set for ordinary coding work and routes documentation update decisions.
-- `project-docs-governance`: a heavier governance skill for creating,
-  migrating, auditing, and repairing a project's docs system.
+## Skills
 
-The design keeps responsibilities separate:
+| Skill | Responsibility | Trigger |
+| --- | --- | --- |
+| `repo-docs-router` | Finds the smallest relevant project docs set and decides whether durable conversation facts or completed work require documentation updates. | Every conversation conducted in a software repository. |
+| `project-docs-governance` | Creates, migrates, audits, or repairs the repository documentation system itself. | New-project setup, legacy-project migration, documentation drift, or governance changes. |
 
-- The coding agent runtime discovers skills.
-- `repo-docs-router` finds project docs and decides whether durable facts or
-  completed work should update docs.
-- Repository docs store project-specific facts and rules.
-- `project-docs-governance` repairs or creates the docs system itself.
+The split is intentional. The router participates in normal work; the
+governance skill changes the docs system only when that system is the task.
 
-## Why This Exists
+## How It Works
 
-Many repositories slowly turn `README.md`, `AGENTS.md`, roadmap docs, ADRs, and
-architecture notes into overlapping rule piles. These skills provide a small
-contract:
+For every repository conversation, `repo-docs-router` performs a lightweight
+preflight:
 
-- standard docs paths are easy for agents to discover,
-- project-specific facts stay in the repo,
-- reusable routing logic lives in a skill,
-- durable conversation facts and completed feature work have a docs lifecycle,
-- stale, experimental, superseded, and dropped docs can be marked explicitly,
-- docs governance work has a separate workflow from normal feature work.
+1. Find the repository root and documentation entry points.
+2. Read `docs/contributing/documentation.md` for project-specific structure,
+   update rules, and special paths.
+3. Use `docs/README.md` as the documentation map when it exists.
+4. Load only the product, architecture, API, reference, ADR, roadmap, status,
+   or other docs relevant to the current request.
+5. Treat document status before trusting a file as current project truth.
+6. During discussion and at task completion, update the smallest appropriate
+   doc when a durable fact, accepted decision, shipped feature, or changed plan
+   requires it.
 
-## Repository Layout
+The router may conclude that no task-specific documentation is needed. An
+always-triggered router is a routing check, not a requirement to read or edit
+docs on every turn.
 
-```text
-skills/
-  repo-docs-router/
-    SKILL.md
-    references/
-    scripts/
-  project-docs-governance/
-    SKILL.md
-    references/
-    scripts/
-    assets/docs-skeleton/
+Use `project-docs-governance` separately when the repository needs a new docs
+structure, a migration from scattered legacy docs, or a drift audit.
+
+## Recommended: Project-Scoped Installation
+
+From the target repository root, copy both skill directories into
+`.agents/skills/`:
+
+```bash
+mkdir -p .agents/skills
+cp -R /path/to/repo-docs-skills/skills/repo-docs-router .agents/skills/
+cp -R /path/to/repo-docs-skills/skills/project-docs-governance .agents/skills/
 ```
 
-## Install
+Commit the installed skills so their behavior changes through normal repository
+review and versioning:
 
-Copy the skill folders into your Codex skills directory:
+```bash
+git add .agents/skills/repo-docs-router .agents/skills/project-docs-governance
+git commit -m "Add repository documentation skills"
+```
+
+Refresh the coding-agent runtime if it does not discover newly added project
+skills immediately.
+
+### Personal Installation
+
+Personal installation is supported for evaluation or individual experiments:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
@@ -56,31 +75,14 @@ cp -R skills/repo-docs-router "${CODEX_HOME:-$HOME/.codex}/skills/"
 cp -R skills/project-docs-governance "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
-Restart or refresh your Codex runtime if it does not discover newly copied
-skills automatically.
+For team repositories, prefer project-scoped installation. A personal copy can
+drift from the repository and cannot guarantee that other agents use the same
+documentation contract.
 
-## Usage
+## Standard Documentation Contract
 
-Use `repo-docs-router` for ordinary work that needs repository documentation
-context or a docs update decision:
-
-```text
-Use $repo-docs-router to find the project docs I should read before changing this API.
-```
-
-```text
-Use $repo-docs-router to decide whether this architecture decision should update docs.
-```
-
-Use `project-docs-governance` when the documentation system itself is the task:
-
-```text
-Use $project-docs-governance to audit this repository's docs entry points and propose a migration.
-```
-
-## Standard Docs Contract
-
-The skills expect, but do not require, this documentation shape:
+The skills recognize this default structure while allowing each project to
+declare different paths in its own documentation:
 
 ```text
 AGENTS.md
@@ -95,12 +97,52 @@ docs/planning/roadmap.md
 docs/planning/implementation-status.md
 ```
 
-If a project uses different paths, repository docs remain the source of truth.
-The router reads project-local overrides after discovering them.
+`AGENTS.md` remains a project rule source when present. It is not responsible
+for discovering the skills or acting as the required documentation router.
+
+## New and Existing Projects
+
+For a new project, use `project-docs-governance` to copy only the useful files
+from `assets/docs-skeleton/`, replace placeholders with verified project facts,
+and establish the initial documentation lifecycle.
+
+For an existing project, use it to inventory current docs, preserve useful
+facts, identify duplicates and stale claims, migrate toward clear entry points,
+and mark superseded or historical material explicitly.
+
+After the governance work is complete, normal repository conversations return
+to `repo-docs-router`.
+
+## Document Status
+
+Significant documents can be marked as `Current`, `Draft`, `Experimental`,
+`Superseded`, `Historical`, `Archived`, or `Unknown`. Planning items can be
+marked as `Planned`, `In progress`, `Shipped`, `Partial`, `Deferred`, `Dropped`,
+or `Superseded`.
+
+These markers prevent an old experiment or abandoned plan from silently
+presenting itself as current project truth.
+
+## Repository Layout
+
+```text
+skills/
+  repo-docs-router/
+    SKILL.md
+    agents/openai.yaml
+    references/
+    scripts/
+  project-docs-governance/
+    SKILL.md
+    agents/openai.yaml
+    references/
+    scripts/
+    assets/docs-skeleton/
+```
 
 ## Validation
 
-Validate each skill with the standard skill validator:
+Validate both skills with the standard skill validator:
 
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py skills/repo-docs-router
@@ -110,6 +152,7 @@ python3 /path/to/skill-creator/scripts/quick_validate.py skills/project-docs-gov
 The included inventory scripts are read-only:
 
 ```bash
-python3 skills/repo-docs-router/scripts/inventory_docs.py /path/to/repo
-python3 skills/project-docs-governance/scripts/inventory_docs.py /path/to/repo
+python3 skills/repo-docs-router/scripts/inventory_docs.py /path/to/repository
+python3 skills/project-docs-governance/scripts/inventory_docs.py /path/to/repository
+python3 skills/project-docs-governance/scripts/next_adr_number.py /path/to/repository
 ```

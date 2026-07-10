@@ -1,4 +1,7 @@
 interface:
   display_name: "Repo Docs Router"
-  short_description: "Find the right project docs"
-  default_prompt: "Use $repo-docs-router to find the project docs to read for this change."
+  short_description: "Route every repository conversation through project docs"
+  default_prompt: "Use $repo-docs-router at the start of this repository conversation to load the relevant project documentation."
+
+policy:
+  allow_implicit_invocation: true
